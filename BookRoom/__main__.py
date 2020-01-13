@@ -2,7 +2,7 @@ import argparse
 
 from BookRoom.requestlib import login, form_request, request_set_config_file
 from BookRoom.datelib import get_unixdate, get_timecode, get_endtime_code
-from BookRoom.roomlib import get_room_id, check_room_available
+from BookRoom.roomlib import get_room_id, check_room_available, select_available_room
 from BookRoom.paramlib import valid_date, valid_time, valid_config_file
 
 resource_id = 'a2d188b3-8349-4f4a-8d2d-549a691864c5'
@@ -14,7 +14,7 @@ resource_id = 'a2d188b3-8349-4f4a-8d2d-549a691864c5'
 ####################################################################################
 
 parser = argparse.ArgumentParser(description='This program will book a specified study room at Sheridan college')
-parser.add_argument('--room', '-r', help='The room you want to book.', default='C138A', required=False)
+parser.add_argument('--room', '-r', help='The room you want to book.')
 parser.add_argument('--date','-d', help='The date is in format YYYY/MM/DD', type=valid_date, required=True)
 parser.add_argument('--starttime', '-t', help='start time of room book. valid format is hh:mm[am,pm]', type=valid_time, required=True)
 parser.add_argument('--duration', '-period', '-p', help='How long to reserve the room.', choices=[ '30', '60', '90', '120'], required=True)
@@ -42,6 +42,9 @@ response = form_request(
         'originalRequestID': '00000000-0000-0000-0000-000000000000'
     }
 )
+
+if room_name is None: # check if a room has already been passed
+    room_name = select_available_room(response)
 
 check_room_available(response, room_name)
 

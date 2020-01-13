@@ -1,10 +1,22 @@
 import json
 from bs4 import BeautifulSoup
 
-def get_room_id(room_name):
+def get_room_data(response):
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-    with open('BookRoom//RoomList_codes.json') as json_file:
-        room_codes = json.load(json_file)
+    try:
+        data = soup.find('div',{'class': 'listDiv'})['data-listdata']
+
+        room_codes = json.loads(data)
+
+        return room_codes
+
+    except:
+        print(soup)
+
+def get_room_id(response, room_name):
+
+    room_codes = get_room_data(response)
 
     for room in room_codes['RowData']:
         if room['rowData'][2] in room_name:
