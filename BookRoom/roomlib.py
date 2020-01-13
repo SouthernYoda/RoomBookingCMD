@@ -1,10 +1,22 @@
 import json
 from bs4 import BeautifulSoup
 
-def get_room_id(room_name):
+def get_room_data(response):
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-    with open('BookRoom//RoomList_codes.json') as json_file:
-        room_codes = json.load(json_file)
+    try:
+        data = soup.find('div',{'class': 'listDiv'})['data-listdata']
+
+        room_codes = json.loads(data)
+
+        return room_codes
+
+    except:
+        print(soup)
+
+def get_room_id(response, room_name):
+
+    room_codes = get_room_data(response)
 
     for room in room_codes['RowData']:
         if room['rowData'][2] in room_name:
@@ -16,21 +28,28 @@ def get_room_id(room_name):
 
 def check_room_available(response, room_name):
 
-    soup = BeautifulSoup(response.text, 'html.parser')
+    room_codes = get_room_data(response)
 
-    try:
-        data = soup.find('div',{'class': 'listDiv'})['data-listdata']
-
-        room_codes = json.loads(data)
-
-        for room in room_codes['RowData']:
-            if room['rowData'][2] in room_name:
-                print('INFO: Room is available')
-                return
-
-    except:
-        print(soup)
+    for room in room_codes['RowData']:
+        if room['rowData'][2] in room_name:
+            print('INFO: Room is available')
+            return
 
     print()
     print(f'Room {room_name} is unavailable during the specified time')
     quit()
+
+def select_available_room(response):
+    room_codes = get_room_data(response)
+
+    print('These are the rooms available during the timeslot:')
+    for room in room_codes['RowData']:
+        if room["rowData"][0] in 'TRA':
+            print(f' - {room["rowData"][2]}')
+
+    chosen_room = input('Which room would you like to book: ')
+
+    return chosen_room
+
+    print()
+    print(f'Room {room_name} is unavailable during the specified time')
