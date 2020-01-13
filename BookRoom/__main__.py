@@ -26,6 +26,7 @@ room_booking_date = args.date
 room_booking_start_time = args.starttime
 room_booking_duration = args.duration
 config_file = args.config
+room_id = None # this will be populated later
 
 request_set_config_file(config_file)
 
@@ -47,6 +48,7 @@ if room_name is None: # check if a room has already been passed
     room_name = select_available_room(response)
 
 check_room_available(response, room_name)
+room_id = get_room_id(response, room_name)
 
 # Make request to book room
 form_request(
@@ -58,7 +60,7 @@ form_request(
         'txtRoomConfigId': resource_id,
         'txtStartDate': 'get_unixdate(room_booking_date)',  # unix datestamp, date of request
         'txtDuration': room_booking_duration,
-        'AvailableRoomConfigIdentIDs': get_room_id(room_name),
+        'AvailableRoomConfigIdentIDs': room_id,
         'dpStartDate3_stamp': get_unixdate(room_booking_date),
         'dpStartDate3': room_booking_date,
         'dpEndByDate_stamp': get_unixdate(room_booking_date),
@@ -73,13 +75,12 @@ form_request(
 )
 
 # Confirm Room Booking Request
-
 form_request(
     url = "https://roombooking.sheridancollege.ca/Portal/Services/CreateBookingRequest.php"
     ,payload = {
         'selfService': '1',
         'txtRequestDisclaimer': 'Select OK to submit this request.',
-        'txtRoomConfigId': get_room_id(room_name),
+        'txtRoomConfigId': room_id,
         'txtOriginalRequestId': '00000000-0000-0000-0000-000000000000',
         'cboRequestType': resource_id,
         'txtNumberOfAttendees': '',
@@ -89,7 +90,7 @@ form_request(
         'txtNbOfPeople': '0',
         'txtMinArea': '0',
         'txtRoomId': resource_id,
-        'cboRoomConfiguration': get_room_id(room_name),
+        'cboRoomConfiguration': room_id,
         'btnConfirm': 'Confirm'
     }
 )
