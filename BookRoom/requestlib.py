@@ -16,9 +16,6 @@ def login():
 
     global session_cookie
 
-
-    print(f"print statement {logger.name}")
-
     logger.info('Login request triggered')
 
     url = "https://roombooking.sheridancollege.ca/Portal/Services/Login.php"
@@ -30,8 +27,11 @@ def login():
 
     response = requests.request("POST", url, data=payload)
 
-    #response.headers['Set-Cookie']
-    session_cookie = response.cookies
+    if(response.status_code == 200):
+        session_cookie = response.cookies
+    else:
+        logger.error("login failed with status code {status_code}")
+        exit()
 
     return
 
@@ -42,7 +42,7 @@ def form_request(url, payload):
 
     response = requests.request("POST", url, data=payload, cookies=session_cookie)
 
-    logger.info('info message in request lib')
+    logger.info('Request set to web server')
     logger.debug('HTTP {response.status_code} {response.url}')
 
     return response

@@ -32,7 +32,6 @@ config_file = args.config
 room_id = None # this will be populated later
 
 logger(args.logLevel)
-#logger('DEBUG')
 
 logger = logging.getLogger(__name__)
 
