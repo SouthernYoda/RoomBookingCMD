@@ -1,9 +1,11 @@
 import argparse
+import logging
 
 from BookRoom.requestlib import login, form_request, request_set_config_file
 from BookRoom.datelib import get_unixdate, get_timecode, get_endtime_code
 from BookRoom.roomlib import get_room_id, check_room_available, select_available_room
 from BookRoom.paramlib import valid_date, valid_time, valid_config_file
+from BookRoom.logger import logger
 
 resource_id = 'a2d188b3-8349-4f4a-8d2d-549a691864c5'
 
@@ -19,6 +21,7 @@ parser.add_argument('--date','-d', help='The date is in format YYYY/MM/DD', type
 parser.add_argument('--starttime', '-t', help='start time of room book. valid format is hh:mm[am,pm]', type=valid_time, required=True)
 parser.add_argument('--duration', '-period', '-p', help='How long to reserve the room.', choices=[ '30', '60', '90', '120'], required=True)
 parser.add_argument('--config', '-c', help='path to load conifiguration file. default is .config.yaml', default='config.yml', type=valid_config_file)
+parser.add_argument("-l", "--log", dest="logLevel", help="Set the logging level" , choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], default='INFO' )
 args = parser.parse_args()
 
 room_name = args.room
@@ -27,6 +30,13 @@ room_booking_start_time = args.starttime
 room_booking_duration = args.duration
 config_file = args.config
 room_id = None # this will be populated later
+
+logger(args.logLevel)
+
+logger = logging.getLogger(__name__)
+
+logger.info('info message in main')
+logger.debug('debug message in main')
 
 request_set_config_file(config_file)
 

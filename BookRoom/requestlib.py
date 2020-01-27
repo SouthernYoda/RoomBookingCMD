@@ -1,8 +1,10 @@
 import requests
 import yaml
+import logging
 
 session_cookie = None
 config_file = None
+logger = logging.getLogger(__name__)
 
 def request_set_config_file(cfg):
     global config_file
@@ -14,7 +16,7 @@ def login():
 
     global session_cookie
 
-    print('Login request triggered')
+    logger.info('Login request triggered')
 
     url = "https://roombooking.sheridancollege.ca/Portal/Services/Login.php"
 
@@ -25,8 +27,11 @@ def login():
 
     response = requests.request("POST", url, data=payload)
 
-    #response.headers['Set-Cookie']
-    session_cookie = response.cookies
+    if(response.status_code == 200):
+        session_cookie = response.cookies
+    else:
+        logger.error("login failed with status code {status_code}")
+        exit()
 
     return
 
@@ -37,6 +42,7 @@ def form_request(url, payload):
 
     response = requests.request("POST", url, data=payload, cookies=session_cookie)
 
-    print(f'INFO: {response.status_code} {response.url}')
+    logger.info('Request set to web server')
+    logger.debug('HTTP {response.status_code} {response.url}')
 
     return response
