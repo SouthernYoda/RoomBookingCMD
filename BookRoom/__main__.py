@@ -21,6 +21,7 @@ parser.add_argument('--date','-d', help='The date is in format YYYY/MM/DD', type
 parser.add_argument('--starttime', '-t', help='start time of room book. valid format is hh:mm[am,pm]', type=valid_time, required=True)
 parser.add_argument('--duration', '-period', '-p', help='How long to reserve the room.', choices=[ '30', '60', '90', '120'], required=True)
 parser.add_argument('--config', '-c', help='path to load conifiguration file. default is .config.yaml', default='config.yml', type=valid_config_file)
+parser.add_argument("-l", "--log", dest="logLevel", help="Set the logging level" , choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], default='INFO' )
 args = parser.parse_args()
 
 room_name = args.room
@@ -30,7 +31,8 @@ room_booking_duration = args.duration
 config_file = args.config
 room_id = None # this will be populated later
 
-logger()
+logger(args.logLevel)
+#logger('DEBUG')
 
 logger = logging.getLogger(__name__)
 
