@@ -28,8 +28,13 @@ To execute program run 'python -m BookRoom' in the same directory as the README.
 <b>--config CONFIG, -c CONFIG</b> path to load conifiguration file. default is config.yaml </br>
 <b>-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --log {DEBUG,INFO,WARNING,ERROR,CRITICAL}  </b> Set the logging level  </br>
 
-Example command passing room to book
+<h2> Examples </h2>
+  - command passing room to book for the next day
+  python -m BookRoom -r 'C138A' -d tomorrow -t '2:00pm' -p 30
+  
+  - command to return available rooms for next week
+  python -m BookRoom -d 'in 1 week' -t '2:00pm' -p 30
+  
+  - command to return available rooms for specific date
   python -m BookRoom -r 'C138A' -d '2020/01/16' -t '2:00pm' -p 30
-
-Example command to return available rooms
-  python -m BookRoom -d '2020/01/16' -t '2:00pm' -p 30
+  
