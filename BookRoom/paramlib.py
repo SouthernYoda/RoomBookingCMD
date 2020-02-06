@@ -1,14 +1,18 @@
 import argparse
 from datetime import datetime
+import dateparser
 import yaml
 
 from BookRoom.datelib import get_timecodes
 
 def valid_date(arg_date):
     try:
-        datetime.strptime(arg_date, '%Y/%m/%d')
+        #datetime.strptime(arg_date, '%Y/%m/%d')
+        room_date = dateparser.parse(arg_date)
 
-        return arg_date
+        print(f"The room date is : {room_date}")
+
+        return room_date
 
     except ValueError:
         msg = "Not a valid date format"

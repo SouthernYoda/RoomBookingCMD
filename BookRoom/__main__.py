@@ -17,7 +17,7 @@ resource_id = 'a2d188b3-8349-4f4a-8d2d-549a691864c5'
 
 parser = argparse.ArgumentParser(description='This program will book a specified study room at Sheridan college')
 parser.add_argument('--room', '-r', help='The room you want to book.')
-parser.add_argument('--date','-d', help='The date is in format YYYY/MM/DD', type=valid_date, required=True)
+parser.add_argument('--date','-d', help="Pass the date of the room booking either as an absolute date 'YYYY/MM/DD' or relative date specified by python's dateparser package", type=valid_date, required=True)
 parser.add_argument('--starttime', '-t', help='start time of room book. valid format is hh:mm[am,pm]', type=valid_time, required=True)
 parser.add_argument('--duration', '-period', '-p', help='How long to reserve the room.', choices=[ '30', '60', '90', '120'], required=True)
 parser.add_argument('--config', '-c', help='path to load conifiguration file. default is .config.yaml', default='config.yml', type=valid_config_file)

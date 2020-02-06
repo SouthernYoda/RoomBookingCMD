@@ -42,9 +42,7 @@ def get_timecodes():
 
 def get_unixdate(room_booking_date):
 
-    date_split = room_booking_date.split('/')
-
-    date_obj = dt.date(int(date_split[0]),int(date_split[1]),int(date_split[2]))
+    date_obj = dt.date(room_booking_date.year,room_booking_date.month,room_booking_date.day)
 
     unix_roombooking_date = int(time.mktime(date_obj.timetuple()))
 
