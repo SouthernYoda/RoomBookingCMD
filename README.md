@@ -26,9 +26,10 @@ To execute program run 'python -m BookRoom' in the same directory as the README.
 <b>--starttime STARTTIME, -t STARTTIME</b> start time of room book. valid format is hh:mm[am,pm] </br>
 <b>--duration {30,60,90,120}, -period {30,60,90,120}, -p {30,60,90,120}</b> Duration to reserve the room. </br>
 <b>--config CONFIG, -c CONFIG</b> path to load conifiguration file. default is config.yaml </br>
+<b>-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --log {DEBUG,INFO,WARNING,ERROR,CRITICAL}  </b> Set the logging level  </br>
 
 Example command passing room to book
   python -m BookRoom -r 'C138A' -d '2020/01/16' -t '2:00pm' -p 30
- 
+
 Example command to return available rooms
   python -m BookRoom -d '2020/01/16' -t '2:00pm' -p 30
