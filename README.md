@@ -22,7 +22,7 @@ To execute program run 'python -m BookRoom' in the same directory as the README.
 
 <b>-h, --help</b>           show this help message and exit </br>
 <b>--room ROOM, -r ROOM</b>  The room you want to book. Optional </br>
-<b>--date DATE, -d DATE</b>  The date is in format YYYY/MM/DD </br>
+<b>--date DATE, -d DATE</b>  Pass the date of the room booking either as an absolute date 'YYYY/MM/DD' or relative date specified by python's dateparser package</br>
 <b>--starttime STARTTIME, -t STARTTIME</b> start time of room book. valid format is hh:mm[am,pm] </br>
 <b>--duration {30,60,90,120}, -period {30,60,90,120}, -p {30,60,90,120}</b> Duration to reserve the room. </br>
 <b>--config CONFIG, -c CONFIG</b> path to load conifiguration file. default is config.yaml </br>
